@@ -14,3 +14,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AGC_AI_E4E16_510015 }}
           channelId: live
           projectId: agc-ai-e4e16-510015
+          siteId: agc-ai-e4e16
