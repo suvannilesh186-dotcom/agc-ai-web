@@ -14,12 +14,11 @@ body {
 
 .responsive-video {
   width: 100%;
-  max-width: 450px;
   height: auto;
-  display: inline-block;
+  display: block;
   background: white;
-  border-radius: 12px;
-  margin-top: 15px;
+  margin: 0;
+  border-radius: 0;
 }
 
 .auth-container {
