@@ -3,17 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>agc.app</title>
+  <title>agc.app - Nilesh Status king</title>
 </head>
-<body>
+<body style="background: white; margin: 0; font-family: sans-serif;">
 
-  <div id="auth-section">
+  <!-- Video Animation Section (White Background) -->
+  <div style="text-align: center; background: white; padding: 20px;">
+    <video autoplay loop muted playsinline style="width: 100%; max-width: 400px; border-radius: 10px; background: white;">
+      <source src="assets/animation.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Auth Section -->
+  <div id="auth-section" style="text-align: center; margin-top: 20px;">
     <button id="google-login-btn" class="auth-btn">
       Sign in with Gmail & Connect YouTube
     </button>
   </div>
 
-  <div id="channel-profile" style="display: none;">
+  <div id="channel-profile" style="display: none; text-align: center; margin-top: 20px;">
     <h3 id="channel-name"></h3>
     <p id="channel-email"></p>
   </div>
