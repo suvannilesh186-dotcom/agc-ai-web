@@ -1,0 +1,34 @@
+body {
+  background: white;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.video-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: white;
+  text-align: center;
+}
+
+.responsive-video {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  display: inline-block;
+  background: white;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.auth-container {
+  text-align: center;
+  margin: 25px 0;
+}
+
+.channel-profile {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+}

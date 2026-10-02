@@ -4,30 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>agc.app - Nilesh Status king</title>
+  <!-- CSS file link -->
+  <link rel="stylesheet" href="style.css">
 </head>
-<body style="background: white; margin: 0; font-family: sans-serif;">
+<body>
 
-  <!-- Video Animation Section (White Background) -->
-  <div style="text-align: center; background: white; padding: 20px;">
-    <video autoplay loop muted playsinline style="width: 100%; max-width: 400px; border-radius: 10px; background: white;">
+  <!-- Video Animation Section -->
+  <div class="video-container">
+    <video autoplay loop muted playsinline class="responsive-video">
       <source src="assets/animation.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
 
   <!-- Auth Section -->
-  <div id="auth-section" style="text-align: center; margin-top: 20px;">
+  <div id="auth-section" class="auth-container">
     <button id="google-login-btn" class="auth-btn">
       Sign in with Gmail & Connect YouTube
     </button>
   </div>
 
-  <div id="channel-profile" style="display: none; text-align: center; margin-top: 20px;">
+  <div id="channel-profile" class="channel-profile">
     <h3 id="channel-name"></h3>
     <p id="channel-email"></p>
   </div>
 
-  <!-- JavaScript.js will handle the logic and import config.js -->
+  <!-- JavaScript.js will handle the logic -->
   <script src="JavaScript.js" type="module"></script>
 </body>
 </html>
