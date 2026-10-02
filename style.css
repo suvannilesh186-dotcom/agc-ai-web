@@ -1,37 +1,34 @@
-/* Page ko scroll hone se rokne ke liye aur full screen adjust karne ke liye */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100vh;
-  overflow: hidden; /* Page ko scroll hone se rokta hai */
-  background: black;
+  background: #000;
   font-family: sans-serif;
-  position: relative;
+  overflow: hidden;
 }
 
-/* Full screen video container jo poori screen cover karega */
 .video-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  background: #000;
   z-index: 1;
-  background: black;
 }
 
 .responsive-video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Bina white space ke video ko poori screen par fit karta hai */
+  object-fit: cover;
   display: block;
 }
 
-/* Sign-in button jo video ke upar overlap karega */
 .auth-container {
-  position: absolute;
-  bottom: 40px; /* Screen ke niche se thoda upar */
+  position: fixed;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -43,19 +40,19 @@ html, body {
 .auth-btn {
   width: 100%;
   padding: 14px 20px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #ffffff;
   border: none;
   border-radius: 30px;
   font-size: 16px;
   font-weight: bold;
-  color: #000;
+  color: #000000;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .channel-profile {
   display: none;
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
