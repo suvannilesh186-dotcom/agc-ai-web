@@ -37,17 +37,24 @@ body {
   max-width: 400px;
 }
 
+/* यहाँ नियोन ग्लोइंग स्टाइल अपडेट कर दिया गया है */
 .auth-btn {
   width: 100%;
-  padding: 14px 20px;
-  background: #ffffff;
-  border: none;
-  border-radius: 30px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #1b6ca8, #0b3c65); /* अंदर का नीला ग्रेडिएंट */
+  border: 3px solid #00f0ff; /* चमकीली नीली बॉर्डर */
+  border-radius: 40px; /* दोनों तरफ से पूरी तरह गोल */
   font-size: 16px;
   font-weight: bold;
-  color: #000000;
+  color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 15px #00f0ff, inset 0 0 15px rgba(0, 240, 255, 0.5); /* नियोन ग्लो इफ़ेक्ट */
+  transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+  box-shadow: 0 0 25px #00f0ff, 0 0 35px #00f0ff, inset 0 0 20px rgba(0, 240, 255, 0.8);
+  transform: scale(1.02);
 }
 
 .channel-profile {
