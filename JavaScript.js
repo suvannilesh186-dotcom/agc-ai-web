@@ -102,8 +102,22 @@ async function fetchYouTubeChannel(token) {
 }
 
 function updateUI(channel) {
+  // 1. साइन-इन बटन छिपाएं
   document.getElementById('auth-section').style.display = 'none';
   
+  // 2. वीडियो कंटेनर को छिपाएं (ताकि लॉगिन के बाद वीडियो बंद हो जाए)
+  const videoContainer = document.querySelector('.video-container');
+  if (videoContainer) {
+    videoContainer.style.display = 'none';
+  }
+
+  // 3. ऊपर की हेडिंग ("AGC.AI Welcome") को छिपाएं
+  const headerTitle = document.querySelector('.header-title');
+  if (headerTitle) {
+    headerTitle.style.display = 'none';
+  }
+
+  // 4. यूजर की चैनल प्रोफाइल और नाम स्क्रीन पर दिखाएं
   const profileSection = document.getElementById('channel-profile');
   document.getElementById('channel-name').textContent = channel.title;
   document.getElementById('channel-email').textContent = channel.customUrl || '';

@@ -26,34 +26,66 @@ body {
   display: block;
 }
 
+/* --- AGC.AI Welcome Heading Style --- */
+.header-title {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+}
+
+.header-title h1 {
+  font-size: 38px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+  text-transform: uppercase;
+  /* टेक्स्ट के चारों तरफ मोटी डार्क आउटलाइन इफ़ेक्ट */
+  text-shadow: 
+    -2px -2px 0 #000,  
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000,
+     0px 4px 10px rgba(0, 0, 0, 0.8);
+  margin: 0;
+}
+
+.header-title h1 span {
+  font-size: 42px;
+}
+
+/* --- Auth Container Position --- */
 .auth-container {
   position: fixed;
-  bottom: 50px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
   text-align: center;
   width: 90%;
-  max-width: 400px;
+  max-width: 420px;
 }
 
-/* यहाँ नियोन ग्लोइंग स्टाइल अपडेट कर दिया गया है */
+/* --- Updated Cyan Neon Button Style --- */
 .auth-btn {
   width: 100%;
   padding: 16px 20px;
-  background: linear-gradient(135deg, #1b6ca8, #0b3c65); /* अंदर का नीला ग्रेडिएंट */
-  border: 3px solid #00f0ff; /* चमकीली नीली बॉर्डर */
-  border-radius: 40px; /* दोनों तरफ से पूरी तरह गोल */
-  font-size: 16px;
+  background: linear-gradient(135deg, #0284c7, #0369a1); /* डार्क सियान/ब्लू ग्रेडिएंट */
+  border: 3px solid #22d3ee; /* चमकीली सियान/टर्कोइज बॉर्डर */
+  border-radius: 40px;
+  font-size: 15px;
   font-weight: bold;
   color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 0 15px #00f0ff, inset 0 0 15px rgba(0, 240, 255, 0.5); /* नियोन ग्लो इफ़ेक्ट */
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.7), inset 0 0 15px rgba(34, 211, 238, 0.4);
   transition: all 0.3s ease;
 }
 
 .auth-btn:hover {
-  box-shadow: 0 0 25px #00f0ff, 0 0 35px #00f0ff, inset 0 0 20px rgba(0, 240, 255, 0.8);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 1), inset 0 0 20px rgba(34, 211, 238, 0.7);
   transform: scale(1.02);
 }
 
