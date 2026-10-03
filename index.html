@@ -8,6 +8,11 @@
 </head>
 <body>
 
+  <!-- Top Corner Profile Logo Container -->
+  <div id="top-profile-container" style="position: fixed; top: 15px; right: 15px; z-index: 1000; display: none; cursor: pointer;">
+    <img id="top-profile-logo" src="" alt="Profile Logo" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #fff; object-fit: cover;" />
+  </div>
+
   <!-- Video Animation Section -->
   <div class="video-container">
     <video autoplay loop muted playsinline class="responsive-video">
@@ -28,9 +33,10 @@
     </button>
   </div>
 
-  <div id="channel-profile" class="channel-profile">
-    <h3 id="channel-name"></h3>
-    <p id="channel-email"></p>
+  <!-- Channel Profile Details Box (Initially hidden) -->
+  <div id="channel-profile" class="channel-profile" style="display: none; position: fixed; top: 70px; right: 15px; background: #222; color: #fff; padding: 15px; border-radius: 8px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+    <h3 id="channel-name" style="margin: 0 0 5px 0; font-size: 16px;"></h3>
+    <p id="channel-email" style="margin: 0; font-size: 14px; color: #aaa;"></p>
   </div>
 
   <!-- JavaScript logic -->

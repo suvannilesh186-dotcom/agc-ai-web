@@ -103,9 +103,10 @@ async function fetchYouTubeChannel(token) {
 
 function updateUI(channel) {
   // 1. साइन-इन बटन छिपाएं
-  document.getElementById('auth-section').style.display = 'none';
+  const authSection = document.getElementById('auth-section');
+  if (authSection) authSection.style.display = 'none';
   
-  // 2. वीडियो कंटेनर को छिपाएं (ताकि लॉगिन के बाद वीडियो बंद हो जाए)
+  // 2. वीडियो कंटेनर को छिपाएं
   const videoContainer = document.querySelector('.video-container');
   if (videoContainer) {
     videoContainer.style.display = 'none';
@@ -117,12 +118,33 @@ function updateUI(channel) {
     headerTitle.style.display = 'none';
   }
 
-  // 4. यूजर की चैनल प्रोफाइल और नाम स्क्रीन पर दिखाएं
-  const profileSection = document.getElementById('channel-profile');
+  // 4. टॉप कॉर्नर पर चैनल का लोगो (Thumbnail) सेट करें और दिखाएं
+  const topContainer = document.getElementById('top-profile-container');
+  const topLogo = document.getElementById('top-profile-logo');
+  
+  const thumbnail = channel.thumbnails?.default?.url || '';
+  if (thumbnail && topLogo) {
+    topLogo.src = thumbnail;
+  }
+  if (topContainer) {
+    topContainer.style.display = 'block';
+  }
+
+  // 5. चैनल का नाम और कस्टम यूआरएल सेट करें
   document.getElementById('channel-name').textContent = channel.title;
   document.getElementById('channel-email').textContent = channel.customUrl || '';
-  
-  profileSection.style.display = 'block';
+
+  // 6. टॉप लोगो पर क्लिक करने पर प्रोफाइल डिटेल्स बॉक्स को दिखने/छिपाने (Toggle) का लॉजिक
+  const profileSection = document.getElementById('channel-profile');
+  if (topContainer && profileSection) {
+    topContainer.onclick = () => {
+      if (profileSection.style.display === 'none' || profileSection.style.display === '') {
+        profileSection.style.display = 'block';
+      } else {
+        profileSection.style.display = 'none';
+      }
+    };
+  }
 }
 
 document.addEventListener('DOMContentLoaded', initAuth);
