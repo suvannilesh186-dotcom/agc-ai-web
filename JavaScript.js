@@ -102,41 +102,40 @@ async function fetchYouTubeChannel(token) {
 }
 
 function updateUI(channel) {
-  // 1. साइन-इन बटन छिपाएं
+  // 1. साइन-इन बटन और हेडिंग छिपाएं
   const authSection = document.getElementById('auth-section');
   if (authSection) authSection.style.display = 'none';
   
-  // 2. वीडियो कंटेनर को छिपाएं
-  const videoContainer = document.querySelector('.video-container');
-  if (videoContainer) {
-    videoContainer.style.display = 'none';
-  }
-
-  // 3. ऊपर की हेडिंग ("AGC.AI Welcome") को छिपाएं
   const headerTitle = document.querySelector('.header-title');
   if (headerTitle) {
     headerTitle.style.display = 'none';
   }
 
-  // 4. टॉप कॉर्नर और पॉपअप कार्ड दोनों के लिए चैनल का लोगो (Thumbnail) सेट करें
-  const topContainer = document.getElementById('top-profile-container');
-  const topLogo = document.getElementById('top-profile-logo');
-  const popupLogo = document.getElementById('popup-profile-img');
-  
-  const thumbnail = channel.thumbnails?.default?.url || '';
-  if (thumbnail) {
-    if (topLogo) topLogo.src = thumbnail;
-    if (popupLogo) popupLogo.src = thumbnail;
+  // 2. वीडियो कंटेनर को छिपाएं और बॉडी का बैकग्राउंड डार्क रखें (White page समस्या का समाधान)
+  const videoContainer = document.querySelector('.video-container');
+  if (videoContainer) {
+    videoContainer.style.display = 'none';
   }
+  document.body.style.background = '#0b0f19';
+
+  // 3. टॉप हैम्बर्गर मेनू बटन दिखाएं
+  const topContainer = document.getElementById('top-profile-container');
   if (topContainer) {
-    topContainer.style.display = 'block';
+    topContainer.style.display = 'flex';
+  }
+
+  // 4. साइडबार के अंदर चैनल का लोगो (Thumbnail) सेट करें
+  const popupLogo = document.getElementById('popup-profile-img');
+  const thumbnail = channel.thumbnails?.default?.url || '';
+  if (thumbnail && popupLogo) {
+    popupLogo.src = thumbnail;
   }
 
   // 5. चैनल का नाम और कस्टम यूआरएल सेट करें
   document.getElementById('channel-name').textContent = channel.title;
   document.getElementById('channel-email').textContent = channel.customUrl || '';
 
-  // 6. टॉप लोगो पर क्लिक करने पर पॉपअप कार्ड को दिखने/छिपाने (Toggle) का लॉजिक
+  // 6. हैम्बर्गर आइकॉन पर क्लिक करने पर साइडबार को खोलने/बंद करने (Toggle) का लॉजिक
   const profileSection = document.getElementById('channel-profile');
   if (topContainer && profileSection) {
     topContainer.onclick = (e) => {
@@ -144,7 +143,7 @@ function updateUI(channel) {
       profileSection.classList.toggle('open');
     };
 
-    // पॉपअप के बाहर कहीं भी क्लिक करने पर वह बंद हो जाए
+    // साइडबार के बाहर कहीं भी क्लिक करने पर वह बंद हो जाए
     document.addEventListener('click', (e) => {
       if (!profileSection.contains(e.target) && !topContainer.contains(e.target)) {
         profileSection.classList.remove('open');
