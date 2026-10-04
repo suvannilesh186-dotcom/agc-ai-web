@@ -3,19 +3,19 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   background: #000;
   font-family: sans-serif;
   overflow: hidden;
-  position: relative;
+  box-sizing: border-box;
 }
 
 .video-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   background: #000;
   z-index: 1;
 }
@@ -183,6 +183,7 @@ body {
   outline: none;
   box-shadow: none;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 #logout-btn:hover,
