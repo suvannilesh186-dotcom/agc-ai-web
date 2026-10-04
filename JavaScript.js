@@ -118,13 +118,15 @@ function updateUI(channel) {
     headerTitle.style.display = 'none';
   }
 
-  // 4. टॉप कॉर्नर पर चैनल का लोगो (Thumbnail) सेट करें और दिखाएं
+  // 4. टॉप कॉर्नर और पॉपअप कार्ड दोनों के लिए चैनल का लोगो (Thumbnail) सेट करें
   const topContainer = document.getElementById('top-profile-container');
   const topLogo = document.getElementById('top-profile-logo');
+  const popupLogo = document.getElementById('popup-profile-img');
   
   const thumbnail = channel.thumbnails?.default?.url || '';
-  if (thumbnail && topLogo) {
-    topLogo.src = thumbnail;
+  if (thumbnail) {
+    if (topLogo) topLogo.src = thumbnail;
+    if (popupLogo) popupLogo.src = thumbnail;
   }
   if (topContainer) {
     topContainer.style.display = 'block';
@@ -134,15 +136,27 @@ function updateUI(channel) {
   document.getElementById('channel-name').textContent = channel.title;
   document.getElementById('channel-email').textContent = channel.customUrl || '';
 
-  // 6. टॉप लोगो पर क्लिक करने पर प्रोफाइल डिटेल्स बॉक्स को दिखने/छिपाने (Toggle) का लॉजिक
+  // 6. टॉप लोगो पर क्लिक करने पर पॉपअप कार्ड को दिखने/छिपाने (Toggle) का लॉजिक
   const profileSection = document.getElementById('channel-profile');
   if (topContainer && profileSection) {
-    topContainer.onclick = () => {
-      if (profileSection.style.display === 'none' || profileSection.style.display === '') {
-        profileSection.style.display = 'block';
-      } else {
-        profileSection.style.display = 'none';
+    topContainer.onclick = (e) => {
+      e.stopPropagation();
+      profileSection.classList.toggle('open');
+    };
+
+    // पॉपअप के बाहर कहीं भी क्लिक करने पर वह बंद हो जाए
+    document.addEventListener('click', (e) => {
+      if (!profileSection.contains(e.target) && !topContainer.contains(e.target)) {
+        profileSection.classList.remove('open');
       }
+    });
+  }
+
+  // 7. Logout बटन का लॉजिक
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.onclick = () => {
+      window.location.reload();
     };
   }
 }

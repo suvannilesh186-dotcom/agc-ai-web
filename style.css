@@ -114,35 +114,70 @@ body {
   display: block;
 }
 
-/* --- Right Side Sidebar Style --- */
+/* --- Popup Profile Card Style (स्क्रीनशॉट जैसा फ्लोटिंग बॉक्स) --- */
 .channel-profile {
   position: fixed;
-  top: 0;
-  right: -280px;
-  /* शुरू में स्क्रीन से बाहर छिपा रहेगा */
-  width: 260px;
-  height: 100vh;
-  background: #181818;
+  top: 65px;
+  right: 15px;
+  width: 250px;
+  background: #2c2c2c;
   color: #fff;
-  padding: 30px 20px;
-  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
   z-index: 1000;
-  transition: right 0.3s ease-in-out;
+  display: none; /* शुरू में छिपा रहेगा */
   box-sizing: border-box;
 }
 
-/* जब साइडबार एक्टिव/ओपन होगा */
+/* जब JS से .open क्लास लगेगी तब यह दिखेगा */
 .channel-profile.open {
-  right: 0;
+  display: block;
 }
 
-.channel-profile h3 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
 }
 
-.channel-profile p {
-  margin: 0;
+#popup-profile-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #fff;
+}
+
+.profile-info h3 {
+  margin: 0 0 3px 0;
   font-size: 14px;
+  font-weight: bold;
+  word-break: break-word;
+}
+
+.profile-info p {
+  margin: 0;
+  font-size: 12px;
   color: #aaa;
+  word-break: break-word;
+}
+
+/* --- Logout Button Style --- */
+#logout-btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: #ff3b30; /* लाल रंग का लॉगआउट टेक्स्ट */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+
+#logout-btn:hover {
+  opacity: 0.8;
 }
