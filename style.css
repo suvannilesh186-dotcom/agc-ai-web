@@ -43,13 +43,12 @@ body {
   color: #ffffff;
   line-height: 1.1;
   text-transform: uppercase;
-  /* टेक्स्ट के चारों तरफ मोटी डार्क आउटलाइन इफ़ेक्ट */
-  text-shadow: 
-    -2px -2px 0 #000,  
-     2px -2px 0 #000,
-    -2px  2px 0 #000,
-     2px  2px 0 #000,
-     0px 4px 10px rgba(0, 0, 0, 0.8);
+  text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000,
+    0px 4px 10px rgba(0, 0, 0, 0.8);
   margin: 0;
 }
 
@@ -73,8 +72,8 @@ body {
 .auth-btn {
   width: 100%;
   padding: 16px 20px;
-  background: linear-gradient(135deg, #0284c7, #0369a1); /* डार्क सियान/ब्लू ग्रेडिएंट */
-  border: 3px solid #22d3ee; /* चमकीली सियान/टर्कोइज बॉर्डर */
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  border: 3px solid #22d3ee;
   border-radius: 40px;
   font-size: 15px;
   font-weight: bold;
@@ -89,13 +88,61 @@ body {
   transform: scale(1.02);
 }
 
-.channel-profile {
-  display: none;
+/* --- Top Profile Container & Logo (शैडो और बॉर्डर हटाने के लिए) --- */
+#top-profile-container {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  color: white;
-  text-align: center;
+  top: 15px;
+  right: 15px;
+  z-index: 1000;
+  display: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#top-profile-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+  outline: none;
+  box-shadow: none;
+  display: block;
+}
+
+/* --- Right Side Sidebar Style --- */
+.channel-profile {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  /* शुरू में स्क्रीन से बाहर छिपा रहेगा */
+  width: 260px;
+  height: 100vh;
+  background: #181818;
+  color: #fff;
+  padding: 30px 20px;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  transition: right 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+/* जब साइडबार एक्टिव/ओपन होगा */
+.channel-profile.open {
+  right: 0;
+}
+
+.channel-profile h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.channel-profile p {
+  margin: 0;
+  font-size: 14px;
+  color: #aaa;
 }
