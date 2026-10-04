@@ -126,7 +126,8 @@ body {
   border-radius: 15px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
   z-index: 1000;
-  display: none; /* शुरू में छिपा रहेगा */
+  display: none;
+  /* शुरू में छिपा रहेगा */
   box-sizing: border-box;
 }
 
@@ -164,20 +165,29 @@ body {
   word-break: break-word;
 }
 
-/* --- Logout Button Style --- */
+/* --- Logout Button Style (बिना किसी शैडो या बॉर्डर के) --- */
 #logout-btn {
   width: 100%;
   padding: 10px;
   background: transparent;
   border: none;
-  color: #ff3b30; /* लाल रंग का लॉगआउट टेक्स्ट */
+  color: #ff3b30;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   text-align: center;
   transition: opacity 0.2s;
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
-#logout-btn:hover {
+#logout-btn:hover,
+#logout-btn:active,
+#logout-btn:focus {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
   opacity: 0.8;
 }
