@@ -1,4 +1,3 @@
-// JavaScript.js
 import { CONFIG } from './config.js';
 
 let tokenClient;
@@ -20,7 +19,6 @@ function loadGsiScript() {
   });
 }
 
-// स्क्रीन पर एरर दिखाने के लिए एक फंक्शन
 function showScreenError(message) {
   let errDiv = document.getElementById('error-display');
   if (!errDiv) {
@@ -101,41 +99,42 @@ async function fetchYouTubeChannel(token) {
   }
 }
 
+// 🔊 Hindi Text-to-Speech Voice Over
+function speakHindi(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'hi-IN';
+    utterance.rate = 1.0;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
 function updateUI(channel) {
-  // 1. साइन-इन बटन और हेडिंग छिपाएं
+  // Hide login & welcome header
   const authSection = document.getElementById('auth-section');
   if (authSection) authSection.style.display = 'none';
   
   const headerTitle = document.querySelector('.header-title');
-  if (headerTitle) {
-    headerTitle.style.display = 'none';
-  }
+  if (headerTitle) headerTitle.style.display = 'none';
 
-  // 2. वीडियो कंटेनर को छिपाएं और बॉडी का बैकग्राउंड डार्क रखें (White page समस्या का समाधान)
-  const videoContainer = document.querySelector('.video-container');
-  if (videoContainer) {
-    videoContainer.style.display = 'none';
-  }
-  document.body.style.background = '#0b0f19';
+  // Show Main AI Dashboard directly on screen
+  const mainDashboard = document.getElementById('main-ai-dashboard');
+  if (mainDashboard) mainDashboard.style.display = 'flex';
 
-  // 3. टॉप हैम्बर्गर मेनू बटन दिखाएं
+  // Show Hamburger Menu
   const topContainer = document.getElementById('top-profile-container');
-  if (topContainer) {
-    topContainer.style.display = 'flex';
-  }
+  if (topContainer) topContainer.style.display = 'flex';
 
-  // 4. साइडबार के अंदर चैनल का लोगो (Thumbnail) सेट करें
+  // Set Profile info in sidebar
   const popupLogo = document.getElementById('popup-profile-img');
   const thumbnail = channel.thumbnails?.default?.url || '';
-  if (thumbnail && popupLogo) {
-    popupLogo.src = thumbnail;
-  }
+  if (thumbnail && popupLogo) popupLogo.src = thumbnail;
 
-  // 5. चैनल का नाम और कस्टम यूआरएल सेट करें
   document.getElementById('channel-name').textContent = channel.title;
   document.getElementById('channel-email').textContent = channel.customUrl || '';
 
-  // 6. हैम्बर्गर आइकॉन पर क्लिक करने पर साइडबार को खोलने/बंद करने (Toggle) का लॉजिक
+  // Sidebar Toggle Logic
   const profileSection = document.getElementById('channel-profile');
   if (topContainer && profileSection) {
     topContainer.onclick = (e) => {
@@ -143,7 +142,6 @@ function updateUI(channel) {
       profileSection.classList.toggle('open');
     };
 
-    // साइडबार के बाहर कहीं भी क्लिक करने पर वह बंद हो जाए
     document.addEventListener('click', (e) => {
       if (!profileSection.contains(e.target) && !topContainer.contains(e.target)) {
         profileSection.classList.remove('open');
@@ -151,10 +149,71 @@ function updateUI(channel) {
     });
   }
 
-  // 7. Logout बटन का लॉजिक
+  // --- AI CHAT LOGIC WITH HINDI VOICE ---
+  const chatInput = document.getElementById('chat-input');
+  const chatMessages = document.getElementById('chat-messages');
+
+  document.getElementById('send-chat-btn').onclick = () => {
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    const userDiv = document.createElement('div');
+    userDiv.className = 'user-msg';
+    userDiv.textContent = text;
+    chatMessages.appendChild(userDiv);
+    chatInput.value = '';
+
+    setTimeout(() => {
+      const botDiv = document.createElement('div');
+      botDiv.className = 'bot-msg';
+      
+      let reply = "Namaste! Aapka sawal bahut accha hai. AGC AI ispar kaam kar raha hai.";
+      if (text.toLowerCase().includes("kaise ho") || text.toLowerCase().includes("कैसे हो")) {
+        reply = "Main bilkul thik hu! Bataiye, aaj status ke liye kya banayein?";
+      } else if (text.toLowerCase().includes("status") || text.toLowerCase().includes("स्टेटस")) {
+        reply = "Nilesh Status King ke liye naye viral ideas taiyar hain!";
+      }
+
+      botDiv.textContent = reply;
+      chatMessages.appendChild(botDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Speak in Hindi voice
+      speakHindi(reply);
+    }, 500);
+  };
+
+  // --- AI IMAGE GENERATOR LOGIC ---
+  document.getElementById('generate-img-btn').onclick = () => {
+    const promptText = document.getElementById('img-prompt-input').value.trim();
+    const resultContainer = document.getElementById('image-result-container');
+    
+    if (!promptText) {
+      alert("Kripya kuch prompt likhein!");
+      return;
+    }
+
+    resultContainer.innerHTML = `<p class="placeholder-text">AI tasveer bana raha hai...</p>`;
+    
+    const encodedPrompt = encodeURIComponent(promptText + ", highly detailed, cinematic, fantasy concept art");
+    const imageUrl = `https://pollinations.ai/p/${encodedPrompt}?width=512&height=512&nologo=true`;
+
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = () => {
+      resultContainer.innerHTML = '';
+      resultContainer.appendChild(img);
+    };
+    img.onerror = () => {
+      resultContainer.innerHTML = `<p class="placeholder-text" style="color:red;">Image load nahi ho saki.</p>`;
+    };
+  };
+
+  // Logout Logic
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
     logoutBtn.onclick = () => {
+      window.speechSynthesis.cancel();
       window.location.reload();
     };
   }

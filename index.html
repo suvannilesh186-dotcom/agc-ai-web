@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- Top Corner Hamburger Menu Button -->
+  <!-- Top-Left Hamburger Menu Button -->
   <div id="top-profile-container">
     <span class="bar"></span>
     <span class="bar"></span>
@@ -18,7 +18,7 @@
   <!-- Video Animation Section -->
   <div class="video-container">
     <video autoplay loop muted playsinline class="responsive-video">
-      <source src="/assets/animation.mp4" type="video/mp4">
+      <source src="assets/animation.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
@@ -28,14 +28,43 @@
     <h1>AGC.AI<br><span>Welcome</span></h1>
   </div>
 
-  <!-- Auth Section -->
+  <!-- Auth Section (Login Before) -->
   <div id="auth-section" class="auth-container">
     <button id="google-login-btn" class="auth-btn">
       Sign in with Gmail & Connect YouTube
     </button>
   </div>
 
-  <!-- Left-Side Full Height Sidebar -->
+  <!-- Main Dashboard AI Section (Login Ke Baad Seedha Main Page Par Dikhega) -->
+  <div id="main-ai-dashboard" class="main-dashboard" style="display: none;">
+    
+    <!-- AI Image Generator Box -->
+    <div class="ai-card">
+      <h3>🎨 Kalpnik AI Image Generator</h3>
+      <div class="inline-input-group">
+        <input type="text" id="img-prompt-input" placeholder="Yaha apni kalpana likhein ( jaise: flying car )..." />
+        <button id="generate-img-btn">Generate</button>
+      </div>
+      <div id="image-result-container">
+        <p class="placeholder-text">Tasveer yaha dikhai degi...</p>
+      </div>
+    </div>
+
+    <!-- AI Voice Assistant Chat Box -->
+    <div class="ai-card">
+      <h3>🤖 AI Hindi Voice Assistant</h3>
+      <div id="chat-messages" class="chat-messages">
+        <div class="bot-msg">Namaste! Main AGC AI hoon. Boliye, kya sahayata karu?</div>
+      </div>
+      <div class="inline-input-group">
+        <input type="text" id="chat-input" placeholder="Kuch poochhein..." />
+        <button id="send-chat-btn">Bhejein</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Left-Side Full Height Sidebar ( sirf Profile aur Logout ke liye ) -->
   <div id="channel-profile" class="channel-profile">
     <div class="profile-header">
       <img id="popup-profile-img" src="" alt="Logo" />
