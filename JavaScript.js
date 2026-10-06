@@ -89,6 +89,11 @@ async function fetchYouTubeChannel(token) {
       ) || data.items[0];
 
       const channel = targetChannel.snippet;
+      
+      // 🟢 Login state aur channel data localStorage me save kar rahe hain
+      localStorage.setItem('agc_logged_in', 'true');
+      localStorage.setItem('channel_data', JSON.stringify(channel));
+
       updateUI(channel);
     } else {
       showScreenError("No YouTube channel found for this account.");
@@ -98,7 +103,7 @@ async function fetchYouTubeChannel(token) {
   }
 }
 
-// 🔊 हिंदी वॉइस-ओवर फंक्शन
+// 🔊 Hindi Voice-over function
 function speakHindi(text) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -161,7 +166,6 @@ function updateUI(channel) {
     chatInput.value = '';
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Check if user is asking to create an image (e.g., starts with "banao", "photo", "image", "draw" or contains "banao")
     const lowerText = text.toLowerCase();
     const isImageRequest = lowerText.includes("banao") || lowerText.includes("photo") || lowerText.includes("image") || lowerText.includes("picture") || lowerText.includes("chahiye");
 
@@ -170,13 +174,12 @@ function updateUI(channel) {
       botDiv.className = 'bot-msg';
 
       if (isImageRequest) {
-        // Generate Image directly in chat
-        botDiv.innerHTML = `यह लीजिए आपकी कल्पना के अनुसार तस्वीर:`;
+        botDiv.innerHTML = `Yeh lijiye aapki kalpana ke anusaar tasveer:`;
         chatMessages.appendChild(botDiv);
 
         const imgLoading = document.createElement('div');
         imgLoading.className = 'bot-msg';
-        imgLoading.innerHTML = `🖼️ AI तस्वीर बना रहा है...`;
+        imgLoading.innerHTML = `🖼️ AI tasveer bana raha hai...`;
         chatMessages.appendChild(imgLoading);
 
         const encodedPrompt = encodeURIComponent(text + ", highly detailed, cinematic, 4k resolution");
@@ -190,28 +193,26 @@ function updateUI(channel) {
           imgLoading.remove();
           chatMessages.appendChild(img);
           chatMessages.scrollTop = chatMessages.scrollHeight;
-          speakHindi("तस्वीर तैयार है!");
+          speakHindi("Tasveer taiyar hai!");
         };
 
         img.onerror = () => {
-          imgLoading.textContent = "तस्वीर लोड करने में समस्या आई। कृपया पुनः प्रयास करें।";
+          imgLoading.textContent = "Tasveer load karne me samasya aayi. Kripya punah prayas karein.";
           chatMessages.scrollTop = chatMessages.scrollHeight;
         };
 
       } else {
-        // Normal Text Response
-        let reply = "मैंने आपकी बात समझ ली है। Nilesh Status King के लिए यह बहुत बढ़िया विचार है!";
+        let reply = "Maine aapki baat samajh li hai. Nilesh Status King ke liye yeh bahut badhiya vichar hai!";
         if (lowerText.includes("kaise ho") || lowerText.includes("कैसे हो")) {
-          reply = "मैं एकदम बढ़िया हूँ Nilesh! बताइए आज क्या नया प्रोजेक्ट शुरू किया जाए?";
+          reply = "Main ekdum badhiya hoon Nilesh! Bataiye aaj kya naya project shuru kiya jaaye?";
         } else if (lowerText.includes("status") || lowerText.includes("स्टेटस")) {
-          reply = "आपके यूट्यूब चैनल के लिए नए वायरल स्टेटस आइडियाज और स्क्रिप्ट्स तैयार हैं।";
+          reply = "Aapke YouTube channel ke liye naye viral status ideas aur scripts taiyar hain.";
         }
 
         botDiv.textContent = reply;
         chatMessages.appendChild(botDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Speak Hindi Voice
         speakHindi(reply);
       }
     }, 600);
@@ -227,9 +228,24 @@ function updateUI(channel) {
   if (logoutBtn) {
     logoutBtn.onclick = () => {
       window.speechSynthesis.cancel();
+      // 🟢 Logout par saved data hata denge
+      localStorage.removeItem('agc_logged_in');
+      localStorage.removeItem('channel_data');
       window.location.reload();
     };
   }
 }
 
-document.addEventListener('DOMContentLoaded', initAuth);
+// 🟢 Page load hone par check karein ki user pehle se logged in hai ya nahi
+document.addEventListener('DOMContentLoaded', () => {
+  initAuth();
+
+  const isLoggedIn = localStorage.getItem('agc_logged_in');
+  if (isLoggedIn === 'true') {
+    const savedChannelData = localStorage.getItem('channel_data');
+    if (savedChannelData) {
+      const channel = JSON.parse(savedChannelData);
+      updateUI(channel);
+    }
+  }
+});
