@@ -1,0 +1,14 @@
+{
+  "youtube_scripts": [
+    {
+      "keywords": ["story", "kahani", "कहानी", "script", "viral"],
+      "response": "📖 **Nilesh Status King के लिए वायरल स्टोरी/स्क्रिप्ट:**\n1. Hook: एक चौंकाने वाला सवाल पूछें।\n2. Struggle: संघर्ष और मेहनत का सफर।"
+    }
+  ],
+  "general_knowledge": [
+    {
+      "keywords": ["bharat", "india", "capital"],
+      "response": "🌍 भारत की राजधानी नई दिल्ली है।"
+    }
+  ]
+}

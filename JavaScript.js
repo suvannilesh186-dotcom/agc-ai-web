@@ -2,63 +2,45 @@ import { CONFIG } from './config.js';
 
 let tokenClient;
 let accessToken = null;
+let globalKnowledgeBase = null;
 
-// 🌐 दुनिया भर के डेटा और हर छोटी-बड़ी जानकारी को कवर करने वाला मास्टर डेटा बैंक
-const masterDataBank = {
-  categories: {
-    "weather_temperature": [
-      {
-        keywords: ["tapman", "temperature", "mausam", "weather", "aaj ka tapman", "garmi", "sardi", "तापमान", "मौसम", "डिग्री"],
-        response: "🌡️ **मौसम और तापमान अपडेट:**\nवर्तमान लाइव मौसम की स्थिति और तापमान जानने के लिए आप अपने शहर का नाम लिखकर पूछ सकते हैं (जैसे: 'Delhi temperature' या 'Mumbai weather')। स्थानीय डेटा बैंक के अनुसार आज का माहौल बहुत सुहाना और काम करने के लिए एकदम परफेक्ट है!"
-      }
-    ],
-    "youtube_scripts": [
-      {
-        keywords: ["story", "kahani", "कहानी", "5 cereat", "script", "viral"],
-        response: "📖 **Nilesh Status King के लिए 5 पॉइंट्स की वायरल स्टोरी/स्क्रिप्ट:**\n\n1. **शुरुआत (Hook):** एक ऐसा धमाकेदार सवाल पूछें जो देखने वाले को हिला दे।\n2. **संघर्ष (Struggle):** मेहनत और असफलता का छोटा सा इमोशनल सफर।\n3. **बदलाव (Turning Point):** वो पल जब सोच और तकदीर दोनों बदल गई।\n4. **सफलता (Success):** मंजिल मिलने का गर्व और मोटिवेशन।\n5. **आउट्रो (Outro):** वीडियो के आखिर में लाइक, शेयर और सब्सक्राइब का जोरदार कॉल-टू-एक्शन!"
-      },
-      {
-        keywords: ["status", "attitude", "shayari", "शायरी", "स्टेटस", "sad", "love"],
-        response: "🔥 **वायरल स्टेटस स्क्रिप्ट:**\n'वक़्त की बात है, आज तुम्हारा है तो कल हमारा होगा... और जिस दिन हमारा होगा, इतिहास तुम्हारा नहीं, हमारा लिखा जाएगा!'\n— *Nilesh Status King स्पेशल* 👑"
-      }
-    ],
-    "tech_coding": [
-      {
-        keywords: ["apk", "build", "github", "code", "app", "javascript", "python", "bug", "error"],
-        response: "💻 **टेक्नोलॉजी और कोडिंग गाइड:**\nआपके APK बिल्ड स्क्रिप्ट्स, GitHub Actions और ऐप्स को डिबग करने के लिए सिस्टम पूरी तरह तैयार है। अपने कोड की समस्या यहाँ साझा करें, समाधान तुरंत दिया जाएगा!"
-      }
-    ],
-    "general_knowledge": [
-      {
-        keywords: ["bharat", "india", "prime minister", "capital", "rajdhani", "samvidhan", "samanya gyan", "general knowledge"],
-        response: "🌍 **सामान्य ज्ञान डेटा बैंक:**\nभारत की राजधानी नई दिल्ली है। दुनिया भर के इतिहास, भूगोल, विज्ञान और राजनीति से जुड़ा कोई भी विशिष्ट सवाल पूछें, डेटा बैंक से आपको सटीक जानकारी मिलेगी।"
-      },
-      {
-        keywords: ["kaise ho", "kya haal hai", "hello", "hi", "namaste", "namaskar"],
-        response: "नमस्ते Nilesh! मैं आपका अपना **AGC.AI** मास्टर असिस्टेंट हूँ। बताइए आज दुनिया के किस डेटा से आपके लिए क्या खास तैयार किया जाए?"
-      }
-    ]
-  },
+// 🌐 JSON डेटा बैंक को लोड करने का सुरक्षित फंक्शन
+async function loadDatabase() {
+  try {
+    const response = await fetch('database.json');
+    if (!response.ok) throw new Error("Network response was not ok");
+    globalKnowledgeBase = await response.json();
+    console.log("✅ JSON Database Loaded Successfully!");
+  } catch (error) {
+    console.error("Database load error:", error);
+  }
+}
 
-  // 🔍 सुपर-इंटेलिजेंट फजी सर्च इंजन (जो हर स्पेलिंग और भावना को समझेगा)
-  findBestMatch: function(userInput) {
-    const cleanInput = userInput.toLowerCase();
-    
-    for (let cat in this.categories) {
-      let items = this.categories[cat];
+// 🔍 JSON डेटा बैंक से स्मार्ट सर्च इंजन (एरर-फ्री लॉजिक)
+function searchInJSON(userInput) {
+  if (!globalKnowledgeBase) {
+    return "⏳ डेटा बैंक लोड हो रहा है, कृपया एक सेकंड बाद दोबारा प्रयास करें।";
+  }
+
+  const cleanInput = userInput.toLowerCase();
+
+  for (let category in globalKnowledgeBase) {
+    let items = globalKnowledgeBase[category];
+    if (Array.isArray(items)) {
       for (let item of items) {
-        for (let kw of item.keywords) {
-          if (cleanInput.includes(kw)) {
-            return item.response;
+        if (item.keywords && Array.isArray(item.keywords)) {
+          for (let kw of item.keywords) {
+            if (cleanInput.includes(kw.toLowerCase())) {
+              return item.response;
+            }
           }
         }
       }
     }
-    
-    // अगर कोई नया या अनोखा सवाल हो, तो स्मार्ट यूनिवर्सल रिप्लाई
-    return `🎯 **AGC.AI मास्टर डेटा बैंक रिस्पॉन्स:**\nमैंने आपके प्रॉम्ट ("${userInput}") को दुनिया भर के डेटा बैंक में स्कैन कर लिया है। Nilesh Status King के इस विचार को हमारे लोकल बैंक में रजिस्टर कर लिया गया है। आप चाहें तो इसकी 4K इमेज या वायरल स्क्रिप्ट की मांग कर सकते हैं!`;
   }
-};
+
+  return `🎯 **AGC.AI JSON डेटा बैंक रिस्पॉन्स:**\nमैंने आपके प्रॉम्ट ("${userInput}") को डेटाबेस में जांच लिया है। Nilesh Status King के लिए यह एक बढ़िया टॉपिक है। आप चाहें तो इसकी 4K इमेज या स्क्रिप्ट बनवा सकते हैं!`;
+}
 
 function loadGsiScript() {
   return new Promise((resolve, reject) => {
@@ -159,11 +141,11 @@ async function fetchYouTubeChannel(token) {
   }
 }
 
-// 🔊 Hindi Voice-over function
 function speakHindi(text) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text.replace(/[*#_]/g, ''));
+    const cleanText = text.replace(/[*#_]/g, '');
+    const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = 'hi-IN';
     utterance.rate = 1.0;
     window.speechSynthesis.speak(utterance);
@@ -184,8 +166,11 @@ function updateUI(channel) {
   const thumbnail = channel.thumbnails?.default?.url || '';
   if (thumbnail && popupLogo) popupLogo.src = thumbnail;
 
-  document.getElementById('channel-name').textContent = channel.title;
-  document.getElementById('channel-email').textContent = channel.customUrl || '';
+  const channelNameElem = document.getElementById('channel-name');
+  if (channelNameElem) channelNameElem.textContent = channel.title;
+
+  const channelEmailElem = document.getElementById('channel-email');
+  if (channelEmailElem) channelEmailElem.textContent = channel.customUrl || '';
 
   const profileSection = document.getElementById('channel-profile');
   if (topContainer && profileSection) {
@@ -201,15 +186,16 @@ function updateUI(channel) {
     });
   }
 
-  // --- CHAT & IMAGE GENERATOR LOGIC ---
   const chatInput = document.getElementById('chat-input');
   const chatMessages = document.getElementById('chat-messages');
+  const sendBtn = document.getElementById('send-chat-btn');
+
+  if (!chatInput || !chatMessages) return;
 
   const handleSendMessage = () => {
     const text = chatInput.value.trim();
     if (!text) return;
 
-    // 1. Add User Message
     const userDiv = document.createElement('div');
     userDiv.className = 'user-msg';
     userDiv.textContent = text;
@@ -219,7 +205,6 @@ function updateUI(channel) {
 
     const lowerText = text.toLowerCase();
     
-    // 🟢 एडवांस्ड इमेज डिटेक्शन
     const isImageRequest = 
       lowerText.includes("banao") || 
       lowerText.includes("banvo") || 
@@ -267,8 +252,7 @@ function updateUI(channel) {
         };
 
       } else {
-        // 🟢 मास्टर डेटा बैंक से सही रिप्लाई ढूंढना
-        const reply = masterDataBank.findBestMatch(text);
+        const reply = searchInJSON(text);
 
         botDiv.innerHTML = reply.replace(/\n/g, '<br>');
         chatMessages.appendChild(botDiv);
@@ -279,7 +263,7 @@ function updateUI(channel) {
     }, 600);
   };
 
-  document.getElementById('send-chat-btn').onclick = handleSendMessage;
+  if (sendBtn) sendBtn.onclick = handleSendMessage;
   chatInput.onkeydown = (e) => {
     if (e.key === 'Enter') handleSendMessage();
   };
@@ -296,14 +280,19 @@ function updateUI(channel) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  loadDatabase();
   initAuth();
 
   const isLoggedIn = localStorage.getItem('agc_logged_in');
   if (isLoggedIn === 'true') {
     const savedChannelData = localStorage.getItem('channel_data');
     if (savedChannelData) {
-      const channel = JSON.parse(savedChannelData);
-      updateUI(channel);
+      try {
+        const channel = JSON.parse(savedChannelData);
+        updateUI(channel);
+      } catch (e) {
+        console.error("Channel data parse error:", e);
+      }
     }
   }
 });
