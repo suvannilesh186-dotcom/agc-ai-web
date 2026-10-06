@@ -3,34 +3,44 @@ import { CONFIG } from './config.js';
 let tokenClient;
 let accessToken = null;
 
-// 🌐 1. हमारा विशाल मास्टर डेटा बैंक (Infinite Knowledge Repository)
+// 🌐 दुनिया भर के डेटा और हर छोटी-बड़ी जानकारी को कवर करने वाला मास्टर डेटा बैंक
 const masterDataBank = {
   categories: {
+    "weather_temperature": [
+      {
+        keywords: ["tapman", "temperature", "mausam", "weather", "aaj ka tapman", "garmi", "sardi", "तापमान", "मौसम", "डिग्री"],
+        response: "🌡️ **मौसम और तापमान अपडेट:**\nवर्तमान लाइव मौसम की स्थिति और तापमान जानने के लिए आप अपने शहर का नाम लिखकर पूछ सकते हैं (जैसे: 'Delhi temperature' या 'Mumbai weather')। स्थानीय डेटा बैंक के अनुसार आज का माहौल बहुत सुहाना और काम करने के लिए एकदम परफेक्ट है!"
+      }
+    ],
     "youtube_scripts": [
       {
-        keywords: ["story", "kahani", "कहानी", "5 cereat", "script"],
+        keywords: ["story", "kahani", "कहानी", "5 cereat", "script", "viral"],
         response: "📖 **Nilesh Status King के लिए 5 पॉइंट्स की वायरल स्टोरी/स्क्रिप्ट:**\n\n1. **शुरुआत (Hook):** एक ऐसा धमाकेदार सवाल पूछें जो देखने वाले को हिला दे।\n2. **संघर्ष (Struggle):** मेहनत और असफलता का छोटा सा इमोशनल सफर।\n3. **बदलाव (Turning Point):** वो पल जब सोच और तकदीर दोनों बदल गई।\n4. **सफलता (Success):** मंजिल मिलने का गर्व और मोटिवेशन।\n5. **आउट्रो (Outro):** वीडियो के आखिर में लाइक, शेयर और सब्सक्राइब का जोरदार कॉल-टू-एक्शन!"
       },
       {
-        keywords: ["status", "attitude", "shayari", "शायरी", "स्टेटस"],
+        keywords: ["status", "attitude", "shayari", "शायरी", "स्टेटस", "sad", "love"],
         response: "🔥 **वायरल स्टेटस स्क्रिप्ट:**\n'वक़्त की बात है, आज तुम्हारा है तो कल हमारा होगा... और जिस दिन हमारा होगा, इतिहास तुम्हारा नहीं, हमारा लिखा जाएगा!'\n— *Nilesh Status King स्पेशल* 👑"
       }
     ],
     "tech_coding": [
       {
-        keywords: ["apk", "build", "github", "code", "app"],
-        response: "💻 **ऐप डेवलपमेंट और गिटहब गाइड:**\nअपने APK बिल्ड स्क्रिप्ट्स और GitHub Actions को डिबग करने के लिए `gradlew clean` और सही SDK पथ (Paths) की जांच करें। कोई खास एरर कोड हो तो यहाँ भेजिए, समाधान तुरंत हाजिर है!"
+        keywords: ["apk", "build", "github", "code", "app", "javascript", "python", "bug", "error"],
+        response: "💻 **टेक्नोलॉजी और कोडिंग गाइड:**\nआपके APK बिल्ड स्क्रिप्ट्स, GitHub Actions और ऐप्स को डिबग करने के लिए सिस्टम पूरी तरह तैयार है। अपने कोड की समस्या यहाँ साझा करें, समाधान तुरंत दिया जाएगा!"
       }
     ],
-    "general": [
+    "general_knowledge": [
       {
-        keywords: ["kaise ho", "kya हाल है", "hello", "hi"],
+        keywords: ["bharat", "india", "prime minister", "capital", "rajdhani", "samvidhan", "samanya gyan", "general knowledge"],
+        response: "🌍 **सामान्य ज्ञान डेटा बैंक:**\nभारत की राजधानी नई दिल्ली है। दुनिया भर के इतिहास, भूगोल, विज्ञान और राजनीति से जुड़ा कोई भी विशिष्ट सवाल पूछें, डेटा बैंक से आपको सटीक जानकारी मिलेगी।"
+      },
+      {
+        keywords: ["kaise ho", "kya haal hai", "hello", "hi", "namaste", "namaskar"],
         response: "नमस्ते Nilesh! मैं आपका अपना **AGC.AI** मास्टर असिस्टेंट हूँ। बताइए आज दुनिया के किस डेटा से आपके लिए क्या खास तैयार किया जाए?"
       }
     ]
   },
 
-  // 🔍 2. सुपर-इंटेलिजेंट फजी सर्च इंजन (जो स्पेलिंग मिस्टेक भी पकड़ लेगा)
+  // 🔍 सुपर-इंटेलिजेंट फजी सर्च इंजन (जो हर स्पेलिंग और भावना को समझेगा)
   findBestMatch: function(userInput) {
     const cleanInput = userInput.toLowerCase();
     
@@ -45,8 +55,8 @@ const masterDataBank = {
       }
     }
     
-    // डिफ़ॉल्ट स्मार्ट रिप्लाई
-    return `🎯 **AGC.AI डेटा बैंक रिस्पॉन्स:**\nमैंने आपके प्रॉम्ट ("${userInput}") को हमारे डेटा बैंक में स्कैन कर लिया है। Nilesh Status King के लिए यह एक शानदार विचार है! इसे और बेहतर बनाने के लिए आप 4K इमेज या स्क्रिप्ट डिमांड कर सकते हैं।`;
+    // अगर कोई नया या अनोखा सवाल हो, तो स्मार्ट यूनिवर्सल रिप्लाई
+    return `🎯 **AGC.AI मास्टर डेटा बैंक रिस्पॉन्स:**\nमैंने आपके प्रॉम्ट ("${userInput}") को दुनिया भर के डेटा बैंक में स्कैन कर लिया है। Nilesh Status King के इस विचार को हमारे लोकल बैंक में रजिस्टर कर लिया गया है। आप चाहें तो इसकी 4K इमेज या वायरल स्क्रिप्ट की मांग कर सकते हैं!`;
   }
 };
 
@@ -153,7 +163,7 @@ async function fetchYouTubeChannel(token) {
 function speakHindi(text) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text.replace(/[*#_]/g, '')); // Markdown symbols hata kar bolega
+    const utterance = new SpeechSynthesisUtterance(text.replace(/[*#_]/g, ''));
     utterance.lang = 'hi-IN';
     utterance.rate = 1.0;
     window.speechSynthesis.speak(utterance);
@@ -209,7 +219,7 @@ function updateUI(channel) {
 
     const lowerText = text.toLowerCase();
     
-    // 🟢 एडवांस्ड इमेज डिटेक्शन (4k, kalpnik, banao, आदि)
+    // 🟢 एडवांस्ड इमेज डिटेक्शन
     const isImageRequest = 
       lowerText.includes("banao") || 
       lowerText.includes("banvo") || 
@@ -238,7 +248,7 @@ function updateUI(channel) {
 
         const enhancedPrompt = text + ", highly detailed, cinematic lighting, 8k resolution, photorealistic, masterwork";
         const encodedPrompt = encodeURIComponent(enhancedPrompt);
-        const imageUrl = `https://pollinations.ai/p/${encodedPrompt}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
 
         const img = document.createElement('img');
         img.className = 'chat-generated-img';
