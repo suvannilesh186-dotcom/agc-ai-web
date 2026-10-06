@@ -27,7 +27,7 @@ body {
   display: block;
 }
 
-/* Auth / Login Container */
+/* Auth / Login Container - सुधरा हुआ और साफ ग्लास कार्ड लुक */
 .auth-container {
   position: fixed;
   top: 0;
@@ -38,28 +38,36 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(11, 15, 25, 0.75); /* डार्क शेड ताकि टेक्स्ट एकदम साफ दिखे */
   backdrop-filter: blur(8px);
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .welcome-box {
+  background: rgba(15, 23, 42, 0.9); /* सॉलिड डार्क ग्लास बॉक्स */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 35px 25px;
+  border-radius: 24px;
   text-align: center;
   max-width: 380px;
   width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(34, 211, 238, 0.25);
+  backdrop-filter: blur(12px);
 }
 
 .welcome-box h1 {
-  font-size: 42px;
+  font-size: 38px;
   color: #fff;
-  margin: 0 0 5px 0;
-  text-shadow: 0 4px 15px rgba(34, 211, 238, 0.5);
+  margin: 0 0 8px 0;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 10px rgba(34, 211, 238, 0.5);
 }
 
 .welcome-box p {
   color: #94a3b8;
   font-size: 14px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .auth-btn {
@@ -112,7 +120,7 @@ body {
   z-index: 10;
   display: flex;
   flex-direction: column;
-  background: rgba(11, 15, 25, 0.45); /* हल्का ट्रांसपेरेंट ताकि पीछे का वीडियो दिखे */
+  background: rgba(11, 15, 25, 0.45);
   backdrop-filter: blur(4px);
   box-sizing: border-box;
 }
@@ -138,7 +146,7 @@ body {
   box-shadow: 0 0 8px #22c55e;
 }
 
-/* Messages Area - यहाँ चैट ऊपर से नीचे तक आराम से स्क्रॉल होगी */
+/* Messages Area */
 .chat-messages-area {
   flex: 1;
   padding: 20px;
@@ -183,7 +191,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Input Bar at bottom - एकदम नीचे फिक्स रहेगा */
+/* Input Bar at bottom */
 .chat-input-bar {
   padding: 16px 20px;
   background: rgba(15, 23, 42, 0.85);
