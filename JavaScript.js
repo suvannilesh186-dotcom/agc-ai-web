@@ -24,10 +24,9 @@ function showScreenError(message) {
   if (!errDiv) {
     errDiv = document.createElement('div');
     errDiv.id = 'error-display';
-    errDiv.style.color = 'red';
+    errDiv.style.color = '#ef4444';
     errDiv.style.padding = '10px';
-    errDiv.style.marginTop = '10px';
-    errDiv.style.wordBreak = 'break-all';
+    errDiv.style.textAlign = 'center';
     document.body.appendChild(errDiv);
   }
   errDiv.textContent = "Error: " + message;
@@ -99,7 +98,7 @@ async function fetchYouTubeChannel(token) {
   }
 }
 
-// 🔊 Hindi Text-to-Speech Voice Over
+// 🔊 हिंदी वॉइस-ओवर फंक्शन
 function speakHindi(text) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -111,14 +110,11 @@ function speakHindi(text) {
 }
 
 function updateUI(channel) {
-  // Hide login & welcome header
+  // Hide login screen
   const authSection = document.getElementById('auth-section');
   if (authSection) authSection.style.display = 'none';
-  
-  const headerTitle = document.querySelector('.header-title');
-  if (headerTitle) headerTitle.style.display = 'none';
 
-  // Show Main AI Dashboard directly on screen
+  // Show Chat Dashboard
   const mainDashboard = document.getElementById('main-ai-dashboard');
   if (mainDashboard) mainDashboard.style.display = 'flex';
 
@@ -149,64 +145,81 @@ function updateUI(channel) {
     });
   }
 
-  // --- AI CHAT LOGIC WITH HINDI VOICE ---
+  // --- CHAT & IMAGE GENERATOR LOGIC ---
   const chatInput = document.getElementById('chat-input');
   const chatMessages = document.getElementById('chat-messages');
 
-  document.getElementById('send-chat-btn').onclick = () => {
+  const handleSendMessage = () => {
     const text = chatInput.value.trim();
     if (!text) return;
 
+    // 1. Add User Message
     const userDiv = document.createElement('div');
     userDiv.className = 'user-msg';
     userDiv.textContent = text;
     chatMessages.appendChild(userDiv);
     chatInput.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Check if user is asking to create an image (e.g., starts with "banao", "photo", "image", "draw" or contains "banao")
+    const lowerText = text.toLowerCase();
+    const isImageRequest = lowerText.includes("banao") || lowerText.includes("photo") || lowerText.includes("image") || lowerText.includes("picture") || lowerText.includes("chahiye");
 
     setTimeout(() => {
       const botDiv = document.createElement('div');
       botDiv.className = 'bot-msg';
-      
-      let reply = "Namaste! Aapka sawal bahut accha hai. AGC AI ispar kaam kar raha hai.";
-      if (text.toLowerCase().includes("kaise ho") || text.toLowerCase().includes("कैसे हो")) {
-        reply = "Main bilkul thik hu! Bataiye, aaj status ke liye kya banayein?";
-      } else if (text.toLowerCase().includes("status") || text.toLowerCase().includes("स्टेटस")) {
-        reply = "Nilesh Status King ke liye naye viral ideas taiyar hain!";
+
+      if (isImageRequest) {
+        // Generate Image directly in chat
+        botDiv.innerHTML = `यह लीजिए आपकी कल्पना के अनुसार तस्वीर:`;
+        chatMessages.appendChild(botDiv);
+
+        const imgLoading = document.createElement('div');
+        imgLoading.className = 'bot-msg';
+        imgLoading.innerHTML = `🖼️ AI तस्वीर बना रहा है...`;
+        chatMessages.appendChild(imgLoading);
+
+        const encodedPrompt = encodeURIComponent(text + ", highly detailed, cinematic, 4k resolution");
+        const imageUrl = `https://pollinations.ai/p/${encodedPrompt}?width=512&height=512&nologo=true`;
+
+        const img = document.createElement('img');
+        img.className = 'chat-generated-img';
+        img.src = imageUrl;
+
+        img.onload = () => {
+          imgLoading.remove();
+          chatMessages.appendChild(img);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          speakHindi("तस्वीर तैयार है!");
+        };
+
+        img.onerror = () => {
+          imgLoading.textContent = "तस्वीर लोड करने में समस्या आई। कृपया पुनः प्रयास करें।";
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+      } else {
+        // Normal Text Response
+        let reply = "मैंने आपकी बात समझ ली है। Nilesh Status King के लिए यह बहुत बढ़िया विचार है!";
+        if (lowerText.includes("kaise ho") || lowerText.includes("कैसे हो")) {
+          reply = "मैं एकदम बढ़िया हूँ Nilesh! बताइए आज क्या नया प्रोजेक्ट शुरू किया जाए?";
+        } else if (lowerText.includes("status") || lowerText.includes("स्टेटस")) {
+          reply = "आपके यूट्यूब चैनल के लिए नए वायरल स्टेटस आइडियाज और स्क्रिप्ट्स तैयार हैं।";
+        }
+
+        botDiv.textContent = reply;
+        chatMessages.appendChild(botDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Speak Hindi Voice
+        speakHindi(reply);
       }
-
-      botDiv.textContent = reply;
-      chatMessages.appendChild(botDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      // Speak in Hindi voice
-      speakHindi(reply);
-    }, 500);
+    }, 600);
   };
 
-  // --- AI IMAGE GENERATOR LOGIC ---
-  document.getElementById('generate-img-btn').onclick = () => {
-    const promptText = document.getElementById('img-prompt-input').value.trim();
-    const resultContainer = document.getElementById('image-result-container');
-    
-    if (!promptText) {
-      alert("Kripya kuch prompt likhein!");
-      return;
-    }
-
-    resultContainer.innerHTML = `<p class="placeholder-text">AI tasveer bana raha hai...</p>`;
-    
-    const encodedPrompt = encodeURIComponent(promptText + ", highly detailed, cinematic, fantasy concept art");
-    const imageUrl = `https://pollinations.ai/p/${encodedPrompt}?width=512&height=512&nologo=true`;
-
-    const img = new Image();
-    img.src = imageUrl;
-    img.onload = () => {
-      resultContainer.innerHTML = '';
-      resultContainer.appendChild(img);
-    };
-    img.onerror = () => {
-      resultContainer.innerHTML = `<p class="placeholder-text" style="color:red;">Image load nahi ho saki.</p>`;
-    };
+  document.getElementById('send-chat-btn').onclick = handleSendMessage;
+  chatInput.onkeydown = (e) => {
+    if (e.key === 'Enter') handleSendMessage();
   };
 
   // Logout Logic

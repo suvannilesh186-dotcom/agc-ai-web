@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>agc.app - Nilesh Status king</title>
+  <title>AGC.AI - Nilesh Status King</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
     <span class="bar"></span>
   </div>
 
-  <!-- Video Animation Section -->
+  <!-- Video Background Animation -->
   <div class="video-container">
     <video autoplay loop muted playsinline class="responsive-video">
       <source src="assets/animation.mp4" type="video/mp4">
@@ -23,48 +23,44 @@
     </video>
   </div>
 
-  <!-- Header Title (AGC.AI Welcome) -->
-  <div class="header-title">
-    <h1>AGC.AI<br><span>Welcome</span></h1>
-  </div>
-
-  <!-- Auth Section (Login Before) -->
+  <!-- Auth Section (Login) -->
   <div id="auth-section" class="auth-container">
-    <button id="google-login-btn" class="auth-btn">
-      Sign in with Gmail & Connect YouTube
-    </button>
+    <div class="welcome-box">
+      <h1>AGC.AI</h1>
+      <p>Nilesh Status King AI Assistant</p>
+      <button id="google-login-btn" class="auth-btn">
+        Sign in with Gmail & Connect YouTube
+      </button>
+    </div>
   </div>
 
-  <!-- Main Dashboard AI Section (Login Ke Baad Seedha Main Page Par Dikhega) -->
-  <div id="main-ai-dashboard" class="main-dashboard" style="display: none;">
+  <!-- Main AI Chat Interface (ChatGPT / Gemini Style) -->
+  <div id="main-ai-dashboard" class="chat-app-container" style="display: none;">
     
-    <!-- AI Image Generator Box -->
-    <div class="ai-card">
-      <h3>🎨 Kalpnik AI Image Generator</h3>
-      <div class="inline-input-group">
-        <input type="text" id="img-prompt-input" placeholder="Yaha apni kalpana likhein ( jaise: flying car )..." />
-        <button id="generate-img-btn">Generate</button>
-      </div>
-      <div id="image-result-container">
-        <p class="placeholder-text">Tasveer yaha dikhai degi...</p>
+    <!-- Chat Header -->
+    <div class="chat-app-header">
+      <div class="ai-status-dot"></div>
+      <span>AGC.AI Assistant (हिंदी Voice)</span>
+    </div>
+
+    <!-- Messages Area -->
+    <div id="chat-messages" class="chat-messages-area">
+      <div class="bot-msg">
+        नमस्ते Nilesh! मैं आपका पर्सनल AI हूँ। आप मुझसे कुछ भी पूछ सकते हैं या तस्वीर बनाने के लिए कह सकते हैं। बोलिए, आज क्या मदद करूँ?
       </div>
     </div>
 
-    <!-- AI Voice Assistant Chat Box -->
-    <div class="ai-card">
-      <h3>🤖 AI Hindi Voice Assistant</h3>
-      <div id="chat-messages" class="chat-messages">
-        <div class="bot-msg">Namaste! Main AGC AI hoon. Boliye, kya sahayata karu?</div>
-      </div>
-      <div class="inline-input-group">
-        <input type="text" id="chat-input" placeholder="Kuch poochhein..." />
-        <button id="send-chat-btn">Bhejein</button>
-      </div>
+    <!-- Input Bar at Bottom -->
+    <div class="chat-input-bar">
+      <input type="text" id="chat-input" placeholder="यहाँ कुछ लिखें या इमेज के लिए कहें..." autocomplete="off" />
+      <button id="send-chat-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
     </div>
 
   </div>
 
-  <!-- Left-Side Full Height Sidebar ( sirf Profile aur Logout ke liye ) -->
+  <!-- Left-Side Sidebar (Profile & Logout) -->
   <div id="channel-profile" class="channel-profile">
     <div class="profile-header">
       <img id="popup-profile-img" src="" alt="Logo" />
